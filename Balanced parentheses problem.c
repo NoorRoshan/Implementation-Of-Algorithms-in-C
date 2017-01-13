@@ -24,9 +24,22 @@ void getCharStack(){
 	_TOS = base;
 }
 
+bool isStackEmpty(){
+	if(base == NULL){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 void push(char c){
 	Stack * t = (Stack *)malloc(sizeof(Stack));
-	t->next = _TOS;
+	if(base == NULL){
+		t->next = base;
+		base = t;
+	}else{
+		t->next = _TOS;
+	}
 	_TOS = t;
 //	(char *)t->type;
 	t->type = (char *)malloc(sizeof(char));
@@ -34,13 +47,25 @@ void push(char c){
 }
 
 char pop(){
+	if(base == NULL){
+		return('-');
+	}
 	char c;
 	Stack * t = _TOS;
-	_TOS = _TOS->next;
+	if(_TOS != base){
+		_TOS = _TOS->next;
+	}else{
+		_TOS = NULL;
+		base = NULL;
+	}
 	c = *(char *)t->type;
 	free(t);
 	return(c);
 }
+
+/*
+*  checkParen ... function pushes the '(' [left parentheses] onto the stack and pops it on an encounter of ')' [right parentheses], if there is no element in the stack on ')' paren, then the string of parentheses is not balanced.
+*/
 
 bool checkParen(const char * paren, int n){
 	int i;
@@ -48,18 +73,20 @@ bool checkParen(const char * paren, int n){
 	if(paren[0] == ')'){
 		return false;
 	}
-	getCharStack();
 	i = 0;
 	while(paren[i] != '\0'){
 		if(paren[i] == '('){
 			push(paren[i]);
 		}else if(paren[i] == ')'){
+			if(isStackEmpty()){
+				return false;
+			}
 			c = pop();
 		}
 		++i;
 	}
 
-	if(_TOS == base){
+	if(isStackEmpty()){
 		return true;
 	}else{
 		return false;
