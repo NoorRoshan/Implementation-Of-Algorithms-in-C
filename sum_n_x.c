@@ -23,6 +23,8 @@ int main(){
     scanf("%d", &x);
     sum = sum_in_array(array, n-1, x);
     printf("Result of sum in array is: %d", sum);
+    free(array);
+    return(0);
 }
 
 bool sum_in_array(int * a, int n, int x){
