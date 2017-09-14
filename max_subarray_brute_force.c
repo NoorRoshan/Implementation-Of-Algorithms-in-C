@@ -22,6 +22,10 @@ int main(){
     start = 0;
     end = 0;
 
+    /* 
+        Time-Complexity: theta(n^2) as depicted in CLRS book.
+    */
+
     for(i = 0 ; i < n; i ++){
         max = array[i];
         if(so_far_max < max){
